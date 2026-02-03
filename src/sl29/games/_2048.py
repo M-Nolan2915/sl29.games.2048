@@ -19,10 +19,10 @@ def nouvelle_partie() -> Tuple[List[List[int]], int]:
     :rtype: Tuple[List[List[int]], int]
     """
     
-    plateau_vide = plateau
-    plateau=plateau3+_ajouter_tuile
-    plateau3=plateau4+_ajouter_tuile
-    return plateau3,0
+    plateau =_creer_plateau_vide()
+    plateau1=_ajouter_tuile(plateau)
+    plateau2=_ajouter_tuile(plateau1)
+    return (plateau2,0)
 
 def jouer_coup(plateau: List[List[int]], direction: str) -> tuple[List[List[int]], int, bool]:
     """
