@@ -1,6 +1,7 @@
 """Module providing the logic of the 2048 game"""
 
 import random
+import copy
 from typing import List, Tuple
 
 TAILLE:int = 4
@@ -17,7 +18,11 @@ def nouvelle_partie() -> Tuple[List[List[int]], int]:
     :return: Une grille TAILLExTAILLE initialisée avec deux tuiles, ainsi que le score à 0.
     :rtype: Tuple[List[List[int]], int]
     """
-    raise NotImplementedError("Fonction nouvelle_partie non implémentée.")
+    
+    plateau_vide = plateau
+    plateau=plateau3+_ajouter_tuile
+    plateau3=plateau4+_ajouter_tuile
+    return plateau3,0
 
 def jouer_coup(plateau: List[List[int]], direction: str) -> tuple[List[List[int]], int, bool]:
     """
@@ -74,7 +79,13 @@ def _ajouter_tuile(plateau: List[List[int]]) -> List[List[int]]:
     :return: Une nouvelle grille avec une tuile ajoutée.
     :rtype: List[List[int]]
     """
-    raise NotImplementedError("Fonction _ajouter_tuile non implémentée.")
+   
+    new_plateau=copy.deepcopy(plateau)
+    cases_vides=_get_cases_vides(new_plateau)
+    (i,j)=random.choice(cases_vides)
+    new_plateau[i][j]=2
+    return new_plateau
+    
 
 def _supprimer_zeros(ligne: List[int]) -> List[int]:
     """
