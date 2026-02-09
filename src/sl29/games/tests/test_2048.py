@@ -73,7 +73,13 @@ def test__ajouter_tuile():
 
 def test__supprimer_zeros():
     print("----> Tests de _supprimer_zeros...")
-    raise NotImplementedError("Tests de _supprimer_zeros non implémentés.")
+    assert nouvelle_ligne  != ligne
+    nouvelle_ligne = [
+        [2,_,_,_,],
+        [_,_,2,_,],
+        [_,_,_,_,],
+        [_,_,_,_,],
+    ]
     print("OK")
 
 def test__fusionner():
