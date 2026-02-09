@@ -59,7 +59,7 @@ def _get_cases_vides(plateau: List[List[int]]) -> List[Tuple[int, int]]:
     :param plateau: La grille actuelle.
     :type plateau: List[List[int]]
     :return: Une liste de coordonnées
-    :rtype: List[Tuple[int, int]]
+    :rtype: List[Tuple[int,pip install -e .[dev,test,doc] int]]
     """
     result= []
     for i in range(len(plateau)):
@@ -98,9 +98,9 @@ def _supprimer_zeros(ligne: List[int]) -> List[int]:
     """
     nouvelle_ligne =[]
 
-    for _  in ligne:
-        if _ != 0:
-            nouvelle_ligne.append(_)
+    for valeur in ligne:
+        if valeur != 0:
+            nouvelle_ligne.append(valeur)
     return nouvelle_ligne
 
 def _fusionner(ligne: List[int]) -> Tuple[List[int], int]:
@@ -112,11 +112,29 @@ def _fusionner(ligne: List[int]) -> Tuple[List[int], int]:
     :return: La ligne après fusion, les points gagnés
     :rtype: Tuple[List[int], int]
     """
-    raise NotImplementedError("Fonction _fusionner non implémentée.")
+    liste_fusionnee = []
+    i = 0
+    score = 0
+    while i < len(ligne):
+        if i+1 < len(ligne)  and ligne [i]  == ligne [i+1]:
+            fusion =ligne [i] +ligne [i+1]
+            score = score +  fusion
+            liste_fusionnee.append(fusion)
+            i = i+2
+        else :
+            liste_fusionnee.append(ligne[i])
+            i = i+1
+    return liste_fusionnee,score
+
+        
+
+
+
+
 
 def _completer_zeros(ligne): # ajouter les annotations de type
     """
-    DOCSTRING À ECIRE
+    D
     """
     raise NotImplementedError("Fonction _completer_zeros non implémentée.")
 

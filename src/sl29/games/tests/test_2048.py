@@ -73,14 +73,12 @@ def test__ajouter_tuile():
 
 def test__supprimer_zeros():
     print("----> Tests de _supprimer_zeros...")
-    assert nouvelle_ligne  != ligne
-    nouvelle_ligne = [
-        [2,_,_,_,],
-        [_,_,2,_,],
-        [_,_,_,_,],
-        [_,_,_,_,],
-    ]
-    print("OK")
+    
+    entre = [2,2,0] #"ce qui il y a a l'origine "
+    attendu = [2,2]# ce qui est attendu a la fin 
+    entres_attendus=([2,2,0],[2,2,]),([0,0,0],[])
+    for entre, attendu in entres_attendus:
+        print("OK")
 
 def test__fusionner():
     print("----> Tests de _fusionner...")
