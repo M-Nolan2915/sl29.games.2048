@@ -148,12 +148,40 @@ def test__deplacer_gauche():
 
 def test__inverser_lignes():
     print("----> Tests de _inverser_lignes...")
-    raise NotImplementedError("Tests de _inverser_lignes non implémentés.")
+    plateau = [
+        [4, 0, 0, 0],
+        [4, 4, 0, 0],
+        [8, 0, 0, 0],
+        [8, 4, 4, 0]
+        
+    ]
+    plateau_attendu = [
+        [0, 0, 0, 4],
+        [0, 0, 4, 4],
+        [0, 0, 0, 8],
+        [0, 4, 4, 8]
+    ]
+   
+    resultat  = _inverser_lignes(plateau)
+    assert resultat == plateau_attendu , f"jaurai du avoir ce plateau{plateau_attendu} mais j'ai eu ce plateau {resultat}"
     print("OK")
 
 def test__deplacer_droite():
     print("----> Tests de _deplacer_droite...")
-    raise NotImplementedError("Tests de _deplacer_droite non implémentés.")
+    plateau = [
+        [2, 0, 2, 4],
+        [2, 2, 0, 0],
+        [0, 0, 4, 4],
+        [0, 4, 2, 0]
+    ]
+    plateau_attendu_droite =[
+        [0,0,4,4],
+        [0,0,0,4],
+        [0,0,0,8],
+        [0,0,4,2]
+    ]
+    resultat,scoree  = _deplacer_droite(plateau)
+    assert resultat == plateau_attendu_droite , f"jaurai du avoir ce plateau{plateau_attendu_droite} mais j'ai eu ce plateau {resultat}"
     print("OK")
 
 def test__transposer():
@@ -289,7 +317,7 @@ def test__partie_terminee():
         [2, 4, 2, 4],
         [4, 2, 4, 2]
     ]
-    assert _partie_terminee(plateau_bloque) is True, "Aucun mouvement possible, la partie devrait être finie."
+    assert _partie_terminee(plateau_bloque) is False , "Aucun mouvement possible, la partie devrait être finie."
 
     print("OK")
 

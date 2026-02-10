@@ -96,12 +96,12 @@ def _supprimer_zeros(ligne: List[int]) -> List[int]:
     :return: La ligne sans zéros.
     :rtype: List[int]
     """
-    nouvelle_ligne =[]
+    supprimer_zero =[ ]
 
     for valeur in ligne:
         if valeur != 0:
-            nouvelle_ligne.append(valeur)
-    return nouvelle_ligne
+            supprimer_zero.append(valeur)
+    return supprimer_zero
 
 def _fusionner(ligne: List[int]) -> Tuple[List[int], int]:
     """
@@ -126,29 +126,40 @@ def _fusionner(ligne: List[int]) -> Tuple[List[int], int]:
             i = i+1
     return liste_fusionnee,score
 
-        
-
-
-
-
 
 def _completer_zeros(ligne): # ajouter les annotations de type
     """
     D
     """
-    raise NotImplementedError("Fonction _completer_zeros non implémentée.")
+    while len(ligne) < TAILLE:
+        ligne.append(0)
+    return ligne
+
+
+
+
 
 def _deplacer_gauche(plateau) : # ajouter les annotations de type
     """
     DOCSTRING À ÉCRIRE
     """
-    raise NotImplementedError("Fonction _deplacer_gauche non implémentée.")
-
+    nouveau_plateau5 = []
+    nouveaux_points = 0.
+    for ligne in plateau:
+        ligne_sans_zeros = _supprimer_zeros(ligne)
+        ligne_fusionnee,score = _fusionner(ligne_sans_zeros)
+        nouveaux_points =  nouveaux_points+score
+        ligne_finale = _completer_zeros(ligne_fusionnee)
+        nouveau_plateau5.append(ligne_finale)
+    return nouveau_plateau5,nouveaux_points
 def _inverser_lignes(plateau): # ajouter les annotations de type
     """
     DOCSTRING À ÉCRIRE
     """
-    raise NotImplementedError("Fonction _inverser_lignes non implémentée.")
+    result =[]
+    for ligne in plateau:
+        result.append(ligne[::-1])
+    return result
 
 def _deplacer_droite(plateau: List[List[int]]) -> Tuple[List[List[int]], int]:
     """
@@ -159,7 +170,14 @@ def _deplacer_droite(plateau: List[List[int]]) -> Tuple[List[List[int]], int]:
     :return: Un tuple contenant la nouvelle grille après déplacement et les points gagnés.
     :rtype: Tuple[List[List[int]], int]
     """
-    raise NotImplementedError("Fonction _deplacer_droite non implémentée.")
+    
+    plateau_inverser = _inverser_lignes(plateau)
+    plateau_inverser_gauche,score= _deplacer_gauche(plateau_inverser)
+    plateau_inverser_gauche_inverser = _inverser_lignes(plateau_inverser_gauche)
+   
+    return  plateau_inverser_gauche_inverser,score
+
+
 
 def _transposer(plateau): # ajouter les annotations de type
     """
