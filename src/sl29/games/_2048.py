@@ -35,9 +35,42 @@ def jouer_coup(plateau: List[List[int]], direction: str) -> tuple[List[List[int]
     :return: Retourne un tuple (nouveau_plateau, points, est_fini).
     :rtype: tuple[List[List[int]], int, bool]
     """
+    
+    ancien_plateau = [ligne[:] for ligne in plateau]
 
-    raise NotImplementedError("Fonction jouer_coup non implémentée.")
 
+    if direction == 'g':
+        nouveau_plateau, points = _deplacer_gauche(plateau)
+    elif direction == 'd':
+        nouveau_plateau, points = _deplacer_droite(plateau)
+    elif direction == 'h':
+        nouveau_plateau, points = _deplacer_haut(plateau)
+    elif direction == 'b':
+        nouveau_plateau, points = _deplacer_bas(plateau)
+    else:
+        raise ValueError(f"Direction inconnue : {direction}")
+    
+    
+    if nouveau_plateau != ancien_plateau:
+        nouveau_plateau = _ajouter_tuile(nouveau_plateau)
+
+
+    # Vérifier si le jeu est fini : aucun déplacement possible
+    est_fini = True
+    for d in ['g', 'd', 'h', 'b']:
+        if d == 'g':
+            p, _ = _deplacer_gauche(nouveau_plateau)
+        elif d == 'd':
+            p, _ = _deplacer_droite(nouveau_plateau)
+        elif d == 'h':
+            p, _ = _deplacer_haut(nouveau_plateau)
+        else:
+            p, _ = _deplacer_bas(nouveau_plateau)
+        if p != nouveau_plateau:
+            est_fini = False
+            break
+
+    return nouveau_plateau, points, est_fini
 # ==========================================================
 # 🔒 FONCTIONS PRIVÉES (LOGIQUE INTERNE)
 # ==========================================================
@@ -180,10 +213,27 @@ def _deplacer_droite(plateau: List[List[int]]) -> Tuple[List[List[int]], int]:
 
 
 def _transposer(plateau): # ajouter les annotations de type
+
     """
-    DOCSTRING À ÉCRIRE
+    Retourne la transposée du plateau.
+
+    Le contenu de la case (i, j) devient
+    le contenu de la case (j, i).
+
+
     """
-    raise NotImplementedError("Fonction _transposer non implémentée.")
+    if not isinstance(plateau, list):
+        raise ValueError("Le plateau doit être une liste de listes")
+    for i, ligne in enumerate(plateau):
+        if not isinstance(ligne, list):
+            raise ValueError(f"La ligne {i} du plateau n'est pas une liste: {ligne}")
+    
+    transposed = []
+    for colonne in zip(*plateau):
+        nouvelle_ligne = list(colonne)
+        transposed.append(nouvelle_ligne)
+    
+    return transposed
 
 def _deplacer_haut(plateau: List[List[int]]) -> Tuple[List[List[int]], int]:
     """
@@ -192,8 +242,19 @@ def _deplacer_haut(plateau: List[List[int]]) -> Tuple[List[List[int]], int]:
     :param plateau: La grille actuelle du jeu.
     :return: Un tuple contenant la nouvelle grille après déplacement et les points gagnés.
     """
-    raise NotImplementedError("Fonction _deplacer_haut non implémentée.")
+    """Déplace toutes les tuiles vers le haut."""
 
+   
+    # 1️⃣ Transposer la grille pour traiter les colonnes comme des lignes
+    plateau_transpose = _transposer(plateau)
+
+    # 2️⃣ Déplacer chaque "ligne transposée" vers la gauche
+    plateau_deplace, score = _deplacer_gauche(plateau_transpose)
+
+    # 3️⃣ Re-transposer pour revenir à la grille originale
+    plateau_final = _transposer(plateau_deplace) 
+
+    return plateau_final, score
 
 def _deplacer_bas(plateau: List[List[int]]) -> Tuple[List[List[int]], int]:
     """
@@ -202,14 +263,45 @@ def _deplacer_bas(plateau: List[List[int]]) -> Tuple[List[List[int]], int]:
     :param plateau: La grille actuelle du jeu.
     :return: Un tuple contenant la nouvelle grille après déplacement et les points gagnés.
     """
-    raise NotImplementedError("Fonction _deplacer_bas non implémentée.")
+     # 1️⃣ Transposer la grille pour traiter les colonnes comme des lignes
+    plateau_transpose = _transposer(plateau)
+
+    # 2️⃣ Déplacer chaque "ligne transposée" vers la gauche
+    plateau_deplace, score = _deplacer_droite(plateau_transpose)
+
+    # 3️⃣ Re-transposer pour revenir à la grille originale
+    plateau_final = _transposer(plateau_deplace) 
+
+    return plateau_final, score
 
 def _partie_terminee(plateau: List[List[int]]) -> bool:
     """
-    DOCSTRING À ÉCRIRE
-    """
-    # Partie non terminee si il y a des cases vides
-    # Partie non terminee si il y a des fusions possibles (horizontale ou verticale)
-    # Sinon c'est vrai
+   
+    Détermine si la partie est terminée.
 
-    raise NotImplementedError("Fonction _partie_terminee non implémentée.")
+    Une partie est finie si :
+    1. Il n'y a plus de cases vides dans la grille.
+    2. Aucune fusion possible n'existe dans les lignes ou les colonnes.
+
+    :param plateau: La grille du jeu (liste de listes d'entiers)
+    :return: True si la partie est terminée, False sinon
+    :rtype: bool
+    """
+    if _get_cases_vides(plateau):
+        return False
+
+    taille = len(plateau)
+
+    # Vérifier les fusions horizontales
+    for ligne in plateau:
+        for i in range(taille - 1):
+            if ligne[i] == ligne[i + 1]:
+                return False
+
+    # Vérifier les fusions verticales
+    for j in range(taille):
+        for i in range(taille - 1):
+            if plateau[i][j] == plateau[i + 1][j]:
+                return False
+
+    return True

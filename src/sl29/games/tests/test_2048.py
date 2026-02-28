@@ -186,12 +186,40 @@ def test__deplacer_droite():
 
 def test__transposer():
     print("----> Tests de _transposer...")
-    raise NotImplementedError("Tests de _transposer non implémentés.")
+    
+    plateau = [
+        [1, 2, 3],
+        [4, 5, 6]
+    ]
+
+    attendu = [
+        [1, 4],
+        [2, 5],
+        [3, 6]
+    ]
+
+    assert _transposer(plateau) == attendu
+
     print("OK")
 
 def test__deplacer_haut():
     print("----> Tests de _deplacer_haut...")
-    raise NotImplementedError("Tests de _deplacer_haut non implémentés.")
+    plateau = [
+        [2, 0, 2, 4],
+        [2, 2, 0, 0],
+        [0, 0, 4, 4],
+        [0, 4, 2, 0]
+    ]
+    attendu = [
+        [4, 2, 2, 8],
+        [0, 4, 4, 0],
+        [0, 0, 2, 0],
+        [0, 0, 0, 0]
+    ]
+    resultat, _ = _deplacer_haut(plateau)
+    assert resultat == attendu
+   
+   
     print("OK")
 
 def test__deplacer_bas():
@@ -225,7 +253,10 @@ def test_jouer_coup():
         [0, 0, 0, 0]
     ]
     # Si on joue à droite, le 2 doit bouger, donc une nouvelle tuile doit apparaître.
+    
+   
     nouveau, points, _ = jouer_coup(plateau_init, "d")
+
 
     compte = sum(1 for ligne in nouveau for v in ligne if v > 0)
     assert compte == 2, f"Une nouvelle tuile aurait dû apparaître. Attendu 2 tuiles, obtenu {compte}"
@@ -317,7 +348,7 @@ def test__partie_terminee():
         [2, 4, 2, 4],
         [4, 2, 4, 2]
     ]
-    assert _partie_terminee(plateau_bloque) is False , "Aucun mouvement possible, la partie devrait être finie."
+    assert _partie_terminee(plateau_bloque) is True , "Aucun mouvement possible, la partie devrait être finie."
 
     print("OK")
 
